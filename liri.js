@@ -6,7 +6,7 @@ var keys = require("./keys.js");
 var request = require('request')
 
 var input = process.argv[2];
-var media; 
+var media;
 
 
 //Twitter
@@ -14,71 +14,70 @@ var Twitter = require('twitter');
 
 function myTweets() {
 
-};
+    var client = new Twitter({
 
-var client = new Twitter({
+        consumer_key: keys.twitterKeys.consumer_key,
+        consumer_secret: keys.twitterKeys.consumer_secret,
+        access_token_key: keys.twitterKeys.access_token_key,
+        access_token_secret: keys.twitterKeys.access_token_secret
+    });
 
-  consumer_key: keys.twitterKeys.consumer_key,
-  consumer_secret: keys.twitterKeys.consumer_secret,
-  access_token_key: keys.twitterKeys.access_token_key,
-  access_token_secret: keys.twitterKeys.access_token_secret
-});
- 
-var params = {screen_name: 'nodejs'};
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log();
-  }
-});
+    var params = { screen_name: '@DevelopDesignDo', count: 20 };
 
+    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+        if (error) throw error;
+        for (i = 0; i < tweets.length; i++) {
+            console.log("\nPosted on: " + tweets[i].created_at);
+            console.log("\tTweet: " + tweets[i].text);
+        }
 
+    });
+  };
 
-//Spotify
+    //Spotify
 
-var spotify = require('spotify');
+    var spotify = require('spotify');
 
-function spotify(song) {
-};
- 
-spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
-    if ( err ) {
-        console.log('Error occurred: ' + err);
-        return;
-    }
- 
-    // Do something with 'data' 
-});
+    function spotify(song) {};
 
+    spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+        if (err) {
+            console.log('Error occurred: ' + err);
+            return;
+
+        }
+    });
 
 
-//OMDB
 
-function OMDB(movie) {
+    //OMDB
 
-};
+    function OMDB(movie) {
 
-// Do What it Says
+    };
 
-function doIt() {
+    // Do What it Says
 
-};
+    function doIt() {
 
-//Switch Statements 
+    };
 
-switch(input) {
-	case "my-tweets":
-		myTweets();
-		break;
+    //Switch Statements 
 
-	case "spotify-this-song":
-		spotify();
-		break;
+    switch (input) {
+        case "my-tweets":
+            myTweets();
+            break;
 
-	case "move-this":
-		OMDB();
-		break;
+        case "spotify-this-song":
+            spotify();
+            break;
 
-	case "do-what-it-says":
-		doIt();
-		break;
-};
+        case "move-this":
+            OMDB();
+            break;
+
+        case "do-what-it-says":
+            doIt();
+            break;
+    };

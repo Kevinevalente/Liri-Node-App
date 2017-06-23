@@ -6,7 +6,7 @@ var keys = require("./keys.js");
 var request = require('request')
 
 var input = process.argv[2];
-var media;
+var media = "";
 
 
 //Twitter
@@ -14,7 +14,7 @@ var Twitter = require('twitter');
 
 function myTweets() {
 
-    var client = new Twitter({
+    var clientTwitter = new Twitter({
 
         consumer_key: keys.twitterKeys.consumer_key,
         consumer_secret: keys.twitterKeys.consumer_secret,
@@ -24,7 +24,7 @@ function myTweets() {
 
     var params = { screen_name: '@DevelopDesignDo', count: 20 };
 
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    clientTwitter.get('statuses/user_timeline', params, function(error, tweets, response) {
         if (error) throw error;
         for (i = 0; i < tweets.length; i++) {
             console.log("\nPosted on: " + tweets[i].created_at);
@@ -32,52 +32,75 @@ function myTweets() {
         }
 
     });
-  };
+};
 
-    //Spotify
+//Spotify
 
-    var spotify = require('spotify');
+function spotifyCall(songSting) {
 
-    function spotify(song) {};
+    var Spotify = require('node-spotify-api');
 
-    spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
-        if (err) {
-            console.log('Error occurred: ' + err);
-            return;
+    var clientSpotify = new Spotify({
 
-        }
+        client_ID: keys.spotifyKeys.client_ID,
+        client_Secret: keys.spotifyKeys.client_Secret
     });
 
+    const defaultSong = "I saw the sign"
+    const defaultArtist = "Ace of Bass"
+
+    if (songSting === undefined) {
+        song = defaultSong;
+        artist = defaultArtist;
+        songSting = defaultArtist + "&" + defaultSong;
+    }
+
+    var params = { type: "track", query: songSting };
+
+    clientSpotify.search(params, function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        } else {
+            console.log(data);
+            
+        }
+
+    });
+};
 
 
-    //OMDB
+//OMDB
 
-    function OMDB(movie) {
+function OMDB(movie) {
 
-    };
+};
 
-    // Do What it Says
+// Do What it Says
 
-    function doIt() {
+function doIt() {
 
-    };
+};
 
-    //Switch Statements 
+//Switch Statements 
 
-    switch (input) {
-        case "my-tweets":
-            myTweets();
-            break;
+switch (input) {
+    case "my-tweets":
+        myTweets();
+        break;
 
-        case "spotify-this-song":
-            spotify();
-            break;
+    case "spotify-this-song":
+        for (i = 3; i < process.argv.length; i++);
+        media += process.argv[i];
+        spotify(media);
+        break;
 
-        case "move-this":
-            OMDB();
-            break;
+    case "move-this":
+        for (i = 3; i < process.argv.length; i++);
+        media += process.argv[i];
+        OMDB(media);
+        break;
 
-        case "do-what-it-says":
-            doIt();
-            break;
-    };
+    case "do-what-it-says":
+        doIt();
+        break;
+};

@@ -9,4 +9,13 @@ exports.twitterKeys = {
   access_token_secret: 'yzmvnSEmXgX3gaIJTixGM6eolNQfkp2CMnlTy4IUla7Dj',
 }
 
+// Spotify Clint Login: 
+
+exports.spotifyKeys = {
+  client_ID: '9a9aeb30c4b748dba1614149a7356835',
+  client_Secret: '918aa55c2e964a2e89c2c6cfc81392c0'
+}
+
+
+
 

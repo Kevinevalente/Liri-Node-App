@@ -2,7 +2,7 @@
 var fs = require("fs");
 var keys = require("./keys.js");
 // var twitter = require('twitter');
-// var spotify = require('spotify');
+var Spotify = require('node-spotify-api');
 var request = require('request')
 
 var input = process.argv[2];
@@ -36,33 +36,35 @@ function myTweets() {
 
 //Spotify
 
-function spotifyCall(songSting) {
+function spotifyCall(songString) {
 
-    var Spotify = require('node-spotify-api');
+    // var Spotify = require('node-spotify-api');
 
     var clientSpotify = new Spotify({
 
-        client_ID: keys.spotifyKeys.client_ID,
-        client_Secret: keys.spotifyKeys.client_Secret
+        id: keys.spotifyKeys['client_ID'],
+        secret: keys.spotifyKeys['client_Secret']
     });
 
     const defaultSong = "I saw the sign"
     const defaultArtist = "Ace of Bass"
 
-    if (songSting === undefined) {
-        song = defaultSong;
-        artist = defaultArtist;
-        songSting = defaultArtist + "&" + defaultSong;
+    if (songString === "") {
+        // song = defaultSong;
+        // artist = defaultArtist;
+        songString = defaultArtist + "&" + defaultSong;
     }
 
-    var params = { type: "track", query: songSting };
+    var params = { type: "track", query: songString };
 
     clientSpotify.search(params, function(err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         } else {
-            console.log(data);
-            
+            console.log(data.tracks.items[0].artist.name);
+            console.log(data.tracks.items[0].album.name);
+            console.log(data.tracks.items[0].name);
+            console.log(data.tracks.items[0].preview_url);
         }
 
     });
@@ -91,7 +93,7 @@ switch (input) {
     case "spotify-this-song":
         for (i = 3; i < process.argv.length; i++);
         media += process.argv[i];
-        spotify(media);
+        spotifyCall(media);
         break;
 
     case "move-this":
